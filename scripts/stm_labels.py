@@ -1,0 +1,10 @@
+STM40 = {1: 'PL research & talks (meta)', 2: 'Abstract interpretation & logics', 3: 'Probabilistic programming', 4: 'Networks & configuration',
+5: 'Graphs, CFGs & slicing', 6: 'Pointer & static analysis', 7: 'Type theory & dependent types', 8: 'Parsing & error repair',
+9: 'Contracts & gradual typing', 10: 'Concurrency & distribution', 11: 'Testing & bug finding', 12: 'Memory models & management',
+13: 'Software development & reuse', 14: 'Compilers & verified compilation', 15: 'Recursive data structures', 16: 'Algorithms & complexity',
+17: 'Functional programming', 18: 'Synthesis & learning', 19: 'Java/VM & web runtimes', 20: 'Parallelism & HPC',
+21: 'Objects, inheritance & GC', 22: 'Data transformation & lenses', 23: 'Effects, monads & continuations', 24: 'Libraries, APIs & refactoring',
+25: 'Abstraction layers & real-time', 26: 'Patterns, sharing & builds', 27: 'Formal semantics', 28: 'Grammars & termination',
+29: 'Security & privacy', 30: 'Extensible languages & DSLs', 31: 'Specifications & generators', 32: 'Model checking & decision procedures',
+33: 'OO design & environments', 34: 'Verification & separation logic', 35: 'Databases & transactions', 36: 'Code optimization & codegen',
+37: 'Loops, arrays & constraints', 38: 'Variables, binding & scope', 39: 'Type systems & inference', 40: 'Quantum programming'}

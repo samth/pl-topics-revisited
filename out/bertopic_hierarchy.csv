@@ -1,0 +1,73 @@
+Parent_ID,Parent_Name,Topics,Child_Left_ID,Child_Left_Name,Child_Right_ID,Child_Right_Name,Distance
+144,type_code_algorithm_analysis_model,"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]",136,performance_analysis_code_optimization_compiler,143,type_model_proof_verification_problem,1.764954121539506
+143,type_model_proof_verification_problem,"[2, 3, 4, 8, 9, 10, 11, 12, 13, 14, 16, 17, 19, 21, 22, 23, 25, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 42, 43, 44, 45, 46, 48, 49, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 64, 66, 67, 68, 69, 70, 72]",142,verification_proof_synthesis_algorithm_model,140,type_programming_functional_calculus_programminglanguage,1.516769531645229
+142,verification_proof_synthesis_algorithm_model,"[2, 9, 14, 19, 21, 23, 26, 28, 30, 31, 32, 34, 37, 38, 39, 40, 42, 44, 46, 48, 49, 51, 53, 55, 56, 58, 61, 62, 64, 66]",141,synthesis_probabilistic_quantum_algorithm_problem,139,verification_proof_concurrent_memory_model,1.2855973227761441
+141,synthesis_probabilistic_quantum_algorithm_problem,"[2, 9, 14, 21, 30, 34, 42, 44, 49, 53, 56, 58, 61, 62, 66]",73,quantum_circuit_gate_classical_state,134,synthesis_probabilistic_problem_algorithm_verification,1.2669872348986222
+140,type_programming_functional_calculus_programminglanguage,"[3, 4, 8, 10, 11, 12, 13, 16, 17, 22, 25, 33, 35, 36, 43, 45, 57, 59, 60, 67, 68, 69, 70, 72]",138,programming_functional_type_model_programminglanguage,119,type_subtyping_theory_typing_inference,1.1737953273328818
+139,verification_proof_concurrent_memory_model,"[19, 23, 26, 28, 31, 32, 37, 38, 39, 40, 46, 48, 51, 55, 64]",129,verification_proof_separationlogic_security_reasoning,122,concurrent_memory_transaction_concurrency_thread,1.1482299695917602
+138,programming_functional_type_model_programminglanguage,"[3, 4, 8, 10, 11, 12, 13, 16, 17, 22, 25, 33, 36, 43, 59, 67, 69, 70, 72]",137,functional_calculus_haskell_semantics_process,130,objectoriented_software_programming_class_object,1.096378044453465
+137,functional_calculus_haskell_semantics_process,"[4, 8, 13, 17, 22, 25, 36, 59, 67, 69, 70, 72]",126,parser_grammar_parsing_attributegrammar_attribute,135,functional_calculus_haskell_semantics_process,1.0463694895163282
+136,performance_analysis_code_optimization_compiler,"[0, 1, 5, 6, 7, 15, 18, 20, 24, 27, 29, 41, 47, 50, 52, 54, 63, 65, 71]",133,analysis_code_optimization_compiler_performance,120,parallel_performance_data_memory_application,1.0252107433059454
+135,functional_calculus_haskell_semantics_process,"[4, 13, 17, 22, 25, 36, 59, 67, 69, 70]",124,functional_haskell_higherorder_calculus_semantics,118,process_distributed_communication_protocol_concurrent,0.942853376429389
+134,synthesis_probabilistic_problem_algorithm_verification,"[2, 9, 14, 21, 30, 42, 44, 49, 53, 56, 58, 62, 66]",132,probabilistic_network_neuralnetwork_inference_verification,131,synthesis_problem_algorithm_automaton_constraint,0.9315892309324941
+133,analysis_code_optimization_compiler_performance,"[0, 1, 15, 18, 27, 41, 50, 54, 63, 65, 71]",54,registerallocation_register_coalescing_liverange_graphcoloring,128,analysis_code_optimization_compiler_performance,0.8966123979766405
+132,probabilistic_network_neuralnetwork_inference_verification,"[2, 21, 49, 53]",111,network_neuralnetwork_verification_robustness_deepneural,105,probabilistic_inference_probability_distribution_privacy,0.8943359392435475
+131,synthesis_problem_algorithm_automaton_constraint,"[9, 14, 30, 42, 44, 56, 58, 62, 66]",117,synthesis_automaton_algorithm_specification_problem,121,constraint_solver_floatingpoint_polynomial_formula,0.8763744386313622
+130,objectoriented_software_programming_class_object,"[3, 10, 11, 12, 16, 33, 43]",113,software_code_test_programming_model,104,objectoriented_class_object_generic_type,0.8745891029975265
+129,verification_proof_separationlogic_security_reasoning,"[23, 26, 28, 31, 37, 38, 46, 48, 51, 64]",51,smartcontract_contract_blockchain_gas_financial,127,proof_verification_separationlogic_reasoning_verified,0.8705439843417065
+128,analysis_code_optimization_compiler_performance,"[0, 1, 15, 18, 27, 41, 50, 63, 65, 71]",112,compiler_optimization_code_instruction_performance,123,analysis_object_pointer_heap_garbagecollection,0.8424611371910389
+127,proof_verification_separationlogic_reasoning_verified,"[23, 26, 28, 31, 37, 38, 46, 48, 64]",107,proof_separationlogic_verification_reasoning_logic,125,security_verification_hardware_secure_cryptographic,0.805711358043717
+126,parser_grammar_parsing_attributegrammar_attribute,"[8, 72]",72,attributegrammar_attribute_evaluator_evaluation_tree,8,parser_grammar_parsing_contextfreegrammar_syntax,0.7964042779219533
+125,security_verification_hardware_secure_cryptographic,"[26, 28, 37, 48, 64]",116,verification_hardware_software_tool_svcomp,95,security_secure_cryptographic_informationflow_policy,0.7831123018619791
+124,functional_haskell_higherorder_calculus_semantics,"[13, 17, 22, 25, 67, 69]",114,haskell_monad_effect_monadic_functional,97,functional_calculus_higherorder_semantics_term,0.7822728397694055
+123,analysis_object_pointer_heap_garbagecollection,"[0, 1, 27, 65]",109,analysis_object_pointer_heap_garbagecollection,65,android_app_apps_androidapps_driver,0.7663312160102991
+122,concurrent_memory_transaction_concurrency_thread,"[19, 32, 39, 40, 55]",101,concurrent_datarace_model_concurrency_race,103,transaction_transactionalmemory_lock_datastructure_memory,0.7565202523576711
+121,constraint_solver_floatingpoint_polynomial_formula,"[9, 44, 56, 62]",108,constraint_solver_formula_solving_smtsolver,56,floatingpoint_numerical_error_arithmetic_accuracy,0.7366428062121569
+120,parallel_performance_data_memory_application,"[5, 6, 7, 20, 24, 29, 47, 52]",115,parallel_data_performance_application_memory,84,gpu_gpus_kernel_performance_tensor,0.7044753514231386
+119,type_subtyping_theory_typing_inference,"[35, 45, 57, 60, 68]",98,type_subtyping_theory_inference_polymorphic,35,gradual_gradualtyping_type_graduallytyped_static,0.700703189994811
+118,process_distributed_communication_protocol_concurrent,"[4, 36, 59, 70]",94,process_distributed_communication_protocol_sessiontype,59,reactive_signal_event_programming_functional,0.6995857412219046
+117,synthesis_automaton_algorithm_specification_problem,"[14, 30, 42, 58, 66]",89,controller_reachability_objective_reinforcementlearning_mdps,110,synthesis_automaton_specification_algorithm_problem,0.6676982442619525
+116,verification_hardware_software_tool_svcomp,"[28, 48, 64]",28,verification_svcomp_competitioncontribution_competition_symbolicexecution,99,hardware_verification_design_embedded_verilog,0.6655464439132399
+115,parallel_data_performance_application_memory,"[5, 20, 29, 47, 52]",102,graph_query_data_processing_stream,79,parallel_performance_memory_application_parallelism,0.664820415143876
+114,haskell_monad_effect_monadic_functional,"[17, 69]",17,haskell_ghc_library_functional_glasgowhaskell,69,monad_effect_monadic_effectful_haskell,0.6636612184944872
+113,software_code_test_programming_model,"[3, 10, 16, 33]",93,test_code_software_bug_model,90,programming_programminglanguage_functional_design_software,0.6513480743502157
+112,compiler_optimization_code_instruction_performance,"[15, 18, 41, 50, 63, 71]",91,compiler_instruction_optimization_code_architecture,100,dynamic_javascript_code_performance_profiling,0.6501542116373699
+111,network_neuralnetwork_verification_robustness_deepneural,"[21, 53]",53,network_packet_protocol_netkat_softwaredefined,21,neuralnetwork_network_robustness_verification_deepneural,0.6501450760221477
+110,synthesis_automaton_specification_algorithm_problem,"[14, 42, 66]",85,synthesis_specification_ltl_problem_synthesizer,42,automaton_symbolic_algorithm_learning_regularexpression,0.6407154732399679
+109,analysis_object_pointer_heap_garbagecollection,"[0, 1, 27]",1,garbagecollection_collector_object_heap_garbagecollector,96,analysis_pointer_rust_precision_type,0.6356965558565831
+108,constraint_solver_formula_solving_smtsolver,"[9, 44, 62]",106,constraint_solver_smtsolver_formula_solving,62,polynomial_invariant_loop_algebraic_real,0.6315992635238911
+107,proof_separationlogic_verification_reasoning_logic,"[23, 31, 38, 46]",92,proof_verified_compiler_coq_tactic,75,separationlogic_verification_proof_reasoning_logic,0.5794642692733669
+106,constraint_solver_smtsolver_formula_solving,"[9, 44]",44,constraint_prolog_logic_clp_programming,9,solver_smtsolver_formula_solving_sat,0.5732740324824457
+105,probabilistic_inference_probability_distribution_privacy,"[2, 49]",49,privacy_probabilistic_sensitivity_reasoning_logic,2,probabilistic_inference_probability_distribution_bayesian,0.5586719572105352
+104,objectoriented_class_object_generic_type,"[11, 12, 43]",88,objectoriented_object_class_generic_type,43,smalltalk_objectoriented_class_inheritance_object,0.557685188655728
+103,transaction_transactionalmemory_lock_datastructure_memory,"[32, 55]",32,datastructure_lockfree_lock_memory_concurrent,55,transactionalmemory_transaction_stm_transactional_lock,0.5572758299462488
+102,graph_query_data_processing_stream,"[20, 47]",47,query_data_stream_database_processing,20,graph_vertex_algorithm_processing_parallel,0.5555948382795218
+101,concurrent_datarace_model_concurrency_race,"[19, 39, 40]",19,datarace_race_bug_racedetection_multithreaded,86,concurrent_model_memory_consistency_linearizability,0.5547104614338748
+100,dynamic_javascript_code_performance_profiling,"[15, 50, 71]",71,profiling_profile_path_branch_optimization,80,dynamic_javascript_java_code_performance,0.545738655143887
+99,hardware_verification_design_embedded_verilog,"[48, 64]",64,embedded_realtime_architecture_arm_verification,48,hardware_verilog_circuit_design_verification,0.5234309479677233
+98,type_subtyping_theory_inference_polymorphic,"[45, 57, 60, 68]",68,theory_type_dependenttype_equality_proof,87,type_subtyping_inference_polymorphic_module,0.5116059490002395
+97,functional_calculus_higherorder_semantics_term,"[13, 22, 25, 67]",76,calculus_higherorder_logic_term_semantics,81,functional_function_list_transformation_tree,0.5084396995176959
+96,analysis_pointer_rust_precision_type,"[0, 27]",27,rust_type_safety_ownership_region,0,analysis_precision_pointer_flow_graph,0.5028839843014652
+95,security_secure_cryptographic_informationflow_policy,"[26, 37]",37,security_informationflow_policy_secure_noninterference,26,cryptographic_secure_security_constanttime_circuit,0.4971109275390828
+94,process_distributed_communication_protocol_sessiontype,"[4, 36, 70]",4,sessiontype_communication_process_protocol_session,83,distributed_process_concurrent_asynchronous_model,0.48492725719327995
+93,test_code_software_bug_model,"[3, 10]",3,test_bug_code_testing_fuzzing,10,dsl_model_productline_software_feature,0.4799459773750959
+92,proof_verified_compiler_coq_tactic,"[31, 38]",38,compiler_verified_compcert_assembly_code,31,proof_tactic_proofassistant_lean_coq,0.4682203548584353
+91,compiler_instruction_optimization_code_architecture,"[18, 41, 63]",41,instruction_scheduling_register_architecture_loop,74,compiler_optimization_code_instruction_llvm,0.4505166179100704
+90,programming_programminglanguage_functional_design_software,"[16, 33]",16,programminglanguage_programming_software_user_visual,33,functional_programming_book_student_course,0.43882917580489966
+89,controller_reachability_objective_reinforcementlearning_mdps,"[30, 58]",30,mdps_markovdecision_reinforcementlearning_probability_reward,58,controller_hybrid_game_control_dynamical,0.4379041443676782
+88,objectoriented_object_class_generic_type,"[11, 12]",11,class_generic_type_java_object,12,objectoriented_object_design_pattern_database,0.42692483062426023
+87,type_subtyping_inference_polymorphic_module,"[45, 57, 60]",78,type_subtyping_inference_polymorphic_typing,60,module_type_polymorphic_inference_functors,0.42533682377742404
+86,concurrent_model_memory_consistency_linearizability,"[39, 40]",40,model_memory_concurrent_modelchecking_thread,39,linearizability_concurrent_consistency_transaction_crdts,0.4214465637968491
+85,synthesis_specification_ltl_problem_synthesizer,"[14, 66]",14,synthesis_synthesizer_specification_synthesizing_problem,66,synthesis_ltl_specification_reactive_temporallogic,0.4213163292261324
+84,gpu_gpus_kernel_performance_tensor,"[6, 7, 24]",82,gpu_gpus_kernel_performance_memory,7,tensor_sparse_matrix_kernel_sparsematrix,0.41805165369848224
+83,distributed_process_concurrent_asynchronous_model,"[36, 70]",36,process_concurrent_distributed_protocol_asynchronous,70,distributed_actor_application_model_programming,0.4120255288737765
+82,gpu_gpus_kernel_performance_memory,"[6, 24]",6,gpu_gpus_kernel_performance_cuda,24,training_deeplearning_model_gpu_tensor,0.39219256116230683
+81,functional_function_list_transformation_tree,"[25, 67]",67,functional_transformation_compiler_function_semantics,25,list_tree_function_algorithm_functional,0.3910446165782897
+80,dynamic_javascript_java_code_performance,"[15, 50]",50,java_performance_dynamic_virtualmachine_optimization,15,javascript_dynamic_type_web_code,0.3722509936932319
+79,parallel_performance_memory_application_parallelism,"[5, 29, 52]",5,parallel_performance_application_mpi_processor,77,parallel_memory_cache_loop_array,0.3696681645271991
+78,type_subtyping_inference_polymorphic_typing,"[45, 57]",45,type_haskell_dependenttype_dependentlytyped_class,57,type_subtyping_polymorphic_inference_typing,0.34802160624769973
+77,parallel_memory_cache_loop_array,"[29, 52]",29,cache_memory_speculative_access_performance,52,parallel_array_parallelism_dependence_loop,0.34677490033867997
+76,calculus_higherorder_logic_term_semantics,"[13, 22]",22,calculus_term_lambdacalculus_theory_effect,13,logic_higherorder_firstorder_semantics_proof,0.34310613669535994
+75,separationlogic_verification_proof_reasoning_logic,"[23, 46]",23,separationlogic_verification_heap_logic_reasoning,46,separationlogic_concurrent_iris_proof_reasoning,0.32301572248915267
+74,compiler_optimization_code_instruction_llvm,"[18, 63]",18,compiler_code_instruction_optimization_llvm,63,optimization_compiler_code_heuristic_performance,0.3137617121436683
+73,quantum_circuit_gate_classical_state,"[34, 61]",34,quantum_classical_gate_circuit_state,61,quantum_circuit_gate_optimization_simulator,0.20233798550004378

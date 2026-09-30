@@ -1,0 +1,9 @@
+data/
+out/bertopic_model
+out/*.pkl
+out/*.npy
+out/*.rds
+out/*.log
+out/lda20.*
+out/stm_K40_beta.csv
+__pycache__/

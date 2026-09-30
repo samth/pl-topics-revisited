@@ -1,0 +1,428 @@
+<title>PL Topics, Revisited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.3/plotly-cartesian.min.js"></script>
+<style>
+/* Layout: a single reading column (~68ch) for prose, with figures allowed to widen to 1080px; findings open the page as a numbered list because they are ordered by section. */
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --ink: #171a21; --ink-2: #4c5262; --muted: #737a8c; --rule: #dde1e8; --accent: #2a78d6; --accent-soft: #e3eefb;
+  --v-popl: #2a78d6; --v-pldi: #eb6834; --v-icfp: #1baf7a; --v-oopsla: #eda100;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+  --seq-lo: #eef4fc; --seq-hi: #104281; --neutral: #9aa0ad;
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111318; --panel: #1a1d24; --ink: #eceef3; --ink-2: #c2c7d2; --muted: #9098a8; --rule: #2e333d; --accent: #3987e5; --accent-soft: #1b2a3f;
+    --v-popl: #3987e5; --v-pldi: #d95926; --v-icfp: #199e70; --v-oopsla: #c98500;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --seq-lo: #1a2330; --seq-hi: #86b6ef; --neutral: #6b7180; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111318; --panel: #1a1d24; --ink: #eceef3; --ink-2: #c2c7d2; --muted: #9098a8; --rule: #2e333d; --accent: #3987e5; --accent-soft: #1b2a3f;
+  --v-popl: #3987e5; --v-pldi: #d95926; --v-icfp: #199e70; --v-oopsla: #c98500;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  --seq-lo: #1a2330; --seq-hi: #86b6ef; --neutral: #6b7180; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; padding-inline: 20px; padding-block: 0 64px; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+.prose { max-width: 68ch; }
+header.top { padding-block: 56px 28px; border-bottom: 1px solid var(--rule); margin-bottom: 36px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(34px, 5.4vw, 56px); line-height: 1.04; letter-spacing: -.02em; margin: 10px 0 16px; text-wrap: balance; }
+h1 .lam { color: var(--accent); }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 27px; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 12px; text-wrap: balance; }
+h3 { font-family: var(--f-display); font-weight: 700; font-size: 18px; margin: 26px 0 6px; }
+.lede { font-size: 20px; color: var(--ink-2); max-width: 64ch; margin: 0; }
+section { padding-block: 40px; border-bottom: 1px solid var(--rule); }
+section .sec-no { font-family: var(--f-mono); font-size: 12px; color: var(--accent); letter-spacing: .06em; }
+p { margin: 0 0 14px; }
+a { color: var(--accent); }
+code, .mono { font-family: var(--f-mono); font-size: .86em; }
+.q { font-style: italic; color: var(--ink-2); border-left: 3px solid var(--rule); padding-left: 14px; margin: 8px 0 18px; }
+ol.findings { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 14px 28px; }
+ol.findings li { display: grid; grid-template-columns: 34px 1fr; gap: 4px; min-width: 0; font-size: 16px; }
+ol.findings .n { font-family: var(--f-mono); color: var(--accent); font-size: 13px; padding-top: 3px; }
+ol.findings b { font-family: var(--f-display); font-weight: 700; }
+.fig { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 14px 8px; margin: 18px 0 8px; min-width: 0; overflow: hidden; }
+.fig .plot { width: 100%; height: 340px; }
+.fig .plot.tall { height: 460px; }
+.fig .plot.short { height: 260px; }
+.cap { font-size: 14px; color: var(--muted); margin: 6px 2px 4px; max-width: 80ch; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap: 14px; }
+.grid2 > * { min-width: 0; }
+.grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 10px; }
+.grid4 .plot { height: 250px; }
+@media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } body { font-size: 16px; padding-inline: 16px; } }
+.tbl { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; font-size: 14.5px; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--f-display); font-weight: 700; font-size: 13px; color: var(--ink-2); }
+td.num, th.num { text-align: right; font-family: var(--f-mono); font-size: 13px; white-space: nowrap; }
+tr.hl td { background: var(--accent-soft); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 6px 0 4px; }
+label.ctl { font-family: var(--f-display); font-size: 14px; color: var(--ink-2); display: flex; gap: 8px; align-items: center; min-width: 0; max-width: 100%; }
+label.ctl select { min-width: 0; flex: 1 1 auto; width: 100%; }
+select { font: inherit; font-family: var(--f-body); font-size: 15px; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 4px; background: var(--panel); color: var(--ink); max-width: 100%; }
+select:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.topic-card { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 6px 24px; font-size: 14.5px; margin: 6px 2px 2px; }
+.topic-card > div { min-width: 0; }
+.topic-card .k { font-family: var(--f-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-family: var(--f-display); font-size: 13px; color: var(--ink-2); margin: 2px 2px 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.pill { font-family: var(--f-mono); font-size: 12px; padding: 1px 7px; border-radius: 10px; background: var(--accent-soft); color: var(--ink); white-space: nowrap; }
+.meth { display: grid; grid-template-columns: 170px 1fr 1fr; }
+footer { padding-block: 32px; color: var(--muted); font-size: 14px; }
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">Re-analysis of Greenberg, Fisher &amp; Walker, SNAPL 2015 · data: pldb</div>
+  <h1>Tracking the flow of ideas through the PL literature, <span class="lam">ten years on</span></h1>
+  <p class="lede">The 2015 paper fit a 20-topic LDA model to 4,355 abstracts from ICFP, OOPSLA, PLDI and POPL and read trends off loess curves. This redo uses the pldb corpus (<span id="n-corpus"></span> abstracts from 24 venues, 1973–2026), structural topic models with venue × time covariates and real uncertainty, citation-trained document embeddings, and a citation graph for validating "related work" claims at scale.</p>
+  <ol class="findings" id="findings"></ol>
+</header>
+
+<section id="methods">
+  <div class="sec-no">§1 · Method</div>
+  <h2>What changed from the original analysis</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Step</th><th>SNAPL 2015</th><th>This re-analysis</th></tr></thead>
+    <tbody>
+      <tr><td>Corpus</td><td>4,355 scraped ACM DL abstracts, 4 venues, to Feb 2015 (plus 2,257 POPL/PLDI full texts)</td><td><span id="m-corpus"></span>. 196 pseudo-abstracts that were scraped ACM page chrome were found and removed (a 20-topic LDA surfaced them as a "citation alert, manage alert" topic).</td></tr>
+      <tr><td>Choosing <i>k</i></td><td>Fixed at 20; the paper noted no method existed for choosing it</td><td>Held-out likelihood, residual dispersion, semantic coherence and exclusivity across K = 10…60 (<code>stm::searchK</code>) → K = 40. LDA NPMI and C<sub>v</sub> coherence sweep for comparison.</td></tr>
+      <tr><td>Topic model</td><td>LDA-C, no covariates</td><td>Structural Topic Model: topic prevalence ~ venue × B-spline(year), so venue-specific time trends are part of the model. LDA k=20 was also refit as a baseline. BERTopic on SPECTER2 embeddings covers all 24 venues (73 topics).</td></tr>
+      <tr><td>Trends &amp; uncertainty</td><td>Loess curves through per-paper weights</td><td>Posterior trajectories by the method of composition (50 draws of θ × regression draws), with 95% bands. Bootstrap CIs everywhere else.</td></tr>
+      <tr><td>OOPSLA CFP question</td><td>Visual inspection</td><td>Difference-in-differences with year fixed effects (OOPSLA vs. ICFP/PLDI/POPL), with and without an OOPSLA-specific pre-trend. PELT changepoints. Topic diversity and Jensen–Shannon divergence between venues.</td></tr>
+      <tr><td>Separation logic</td><td>Posed, not answered</td><td>Three independent signals: citations of the founding papers (OpenAlex), text mentions, and STM topic prevalence. Segmented logistic changepoint model.</td></tr>
+      <tr><td>Related work</td><td>4 papers; Euclidean distance on LDA vectors vs. random papers</td><td>3,940 papers (8,137 across all venues) with ≥5 in-corpus references from OpenAlex. AUC, Recall@20/100 and MRR for LDA, STM, TF-IDF and SPECTER2.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="data">
+  <div class="sec-no">§2 · Data and model choice</div>
+  <h2>The corpus, and how many topics to fit</h2>
+  <div class="prose">
+    <p>pldb holds <span id="n-raw"></span> papers from dblp. <span id="n-abs"></span> have abstracts. Coverage is nearly complete for the four big conferences and patchy for Springer venues (CAV, TACAS, SAS, VMCAI, ESOP, ECOOP, APLAS), so the 24-venue analyses weight those venues by what is available. Each document is title + abstract. Author names were left out, unlike the original, because they let a model match on people instead of ideas.</p>
+  </div>
+  <div class="fig"><div class="legend" id="lg-cov"></div><div class="plot" id="p-cov"></div>
+    <p class="cap">Documents per year in the analysis corpus. The four conferences studied in 2015 are shown separately; "Other 20 venues" is used only in the all-venue analyses (§9 and §10).</p></div>
+  <div class="prose"><p>The 2015 paper fixed <i>k</i> = 20 and said that no method existed for choosing <i>k</i>. For the structural topic model, held-out log-likelihood improves steadily until about K = 50 and then flattens. Semantic coherence falls as K grows and exclusivity plateaus near 40. K = 40 sits at the knee. The 20-topic LDA replication scores well on NPMI coherence, but its topics mix unrelated themes (see the replication list at the end).</p></div>
+  <div class="grid4" id="p-searchk"></div>
+  <p class="cap">STM model diagnostics on ICFP/OOPSLA/PLDI/POPL (<span class="n-core4"></span> abstracts), prevalence ~ venue × s(year). The dashed line marks the chosen K = 40.</p>
+</section>
+
+<section id="holistic">
+  <div class="sec-no">§3 · The four conferences, holistically</div>
+  <h2>What each conference publishes, 1973–2026</h2>
+  <div class="prose"><p>This is the analogue of the paper's Figure 6. Each chart stacks the expected topic shares for one conference in a centred three-year window. The 40 topics are grouped into eight areas; the explorer in §4 has them individually. Several of the paper's conclusions hold up: OOPSLA's object-oriented core has collapsed, PLDI's classical optimization share has shrunk, and POPL and ICFP remain the home of types and semantics. The new pattern is that every conference now carries a thick band of "emerging" work (probabilistic programming, synthesis and learning, security, quantum).</p></div>
+  <div class="fig"><div class="legend" id="lg-areas"></div><div class="grid2" id="p-holistic"></div>
+    <p class="cap">Mean STM topic proportions summed by area, per venue, three-year centred windows. Hover for values.</p></div>
+</section>
+
+<section id="bytopic">
+  <div class="sec-no">§4 · Topic by topic</div>
+  <h2>Every topic, every conference, with uncertainty</h2>
+  <div class="prose"><p>This is the analogue of Figure 7, but each curve is a model-based estimate rather than a loess fit. The shaded band is a 95% interval that includes uncertainty in the topic proportions themselves. The prevalence regression is linear, so a band can dip slightly below zero where a topic is essentially absent. Pick a topic to see its defining words (by probability and by FREX, which balances frequency against exclusivity) and its most representative papers.</p></div>
+  <div class="fig">
+    <div class="controls"><label class="ctl" for="topic-sel">Topic <select id="topic-sel"></select></label></div>
+    <div class="legend" id="lg-venues"></div>
+    <div class="plot" id="p-topic"></div>
+    <div class="topic-card" id="topic-card"></div>
+  </div>
+  <h3>Compiler optimization: down, as the paper saw, and it kept falling</h3>
+  <div class="prose"><p>The paper reported "strong downward trends through the 2000s" for optimization. The decline continued. The <i>Code optimization &amp; codegen</i> topic (register allocation, inlining, specialization, instruction selection) fell at PLDI from 17.6% of abstracts [95% CI 15.7–19.3] in 1995 to 7.7% in 2008 and 2.8% [1.6–4.0] in 2025. <i>Compilers &amp; verified compilation</i> (LLVM, CompCert, Wasm, translation validation) stayed flat at about 3.4%. The change is from making code fast to making compilers trustworthy.</p></div>
+  <div class="grid2"><div class="fig"><div class="plot short" id="p-opt1"></div><p class="cap">Code optimization &amp; codegen (topic 36)</p></div>
+  <div class="fig"><div class="plot short" id="p-opt2"></div><p class="cap">Compilers &amp; verified compilation (topic 14)</p></div></div>
+</section>
+
+<section id="oopsla">
+  <div class="sec-no">§5 · The OOPSLA question</div>
+  <h2>Did the 2007 call for papers and the 2010 SPLASH rebrand change OOPSLA?</h2>
+  <p class="q">"Did generalizing the Call for Papers for OOPSLA in 2007 or changing the name of the umbrella conference to SPLASH in 2010 have any effect on the kinds of papers published there?" (SNAPL 2015)</p>
+  <div class="prose">
+    <p>The 2015 paper answered this visually: OO programming declined "beginning in around the year 2000… with little apparent dip" at the rebrand. The model-based answer is that <b>both are true</b>. OO content at OOPSLA was already falling before 2007. After netting out that pre-trend and field-wide year effects, there is still an additional step down at both 2007 and 2010.</p>
+  </div>
+  <div class="fig"><div class="plot" id="p-oo-event"></div>
+    <p class="cap">Share of each paper devoted to the two OO topics (<i>Objects, inheritance &amp; GC</i> + <i>OO design &amp; environments</i>): OOPSLA minus the other three conferences, per year, with 95% bootstrap CI. Dashed lines mark 2007 (new CFP) and 2010 (SPLASH).</p></div>
+  <div class="tbl"><table id="t-did"></table></div>
+  <p class="cap">Paper-level OLS on the OO share, 1997–2019, standard errors clustered by venue-year. Coefficients are in percentage points of an abstract's topic mass.</p>
+  <div class="prose">
+    <p>OOPSLA did broaden. Its effective number of topics (the exponential of the Shannon entropy of its mean topic mixture) rose from about 13 in 1990 to 33 in 2020, overtaking POPL, which has <i>narrowed</i> since 2010. But the rise is a smooth 30-year curve. There is no visible kink at 2007 or 2010, and a PELT changepoint search on OOPSLA's yearly topic shares puts the break for the OO-runtime topic at 2005, before the CFP change. The topics that took OO's place at OOPSLA are <i>Testing &amp; bug finding</i> (0.5% in 1995 to 9.0% in 2025), <i>Synthesis &amp; learning</i> (0.3% to 7.4%) and <i>Verification &amp; separation logic</i> (0.3% to 5.9%). In 2015 the paper saw only the start of this, as "test generation, analysis of concurrent programming, parallelism, and verification."</p>
+  </div>
+  <div class="fig"><div class="legend" id="lg-venues2"></div><div class="plot" id="p-div"></div>
+    <p class="cap">Topic diversity: effective number of STM topics in each venue's mean topic mixture (three-year windows, 95% bootstrap band).</p></div>
+</section>
+
+<section id="converge">
+  <div class="sec-no">§6 · Convergence</div>
+  <h2>The four conferences are becoming one conference</h2>
+  <div class="prose"><p>The 2015 paper started from "the prevailing wisdom… that each of the four major SIGPLAN conferences has its own character." That is measurably less true every decade. Jensen–Shannon divergence between venues' topic mixtures has fallen for every pair. OOPSLA and PLDI are now nearly indistinguishable (JSD 0.35 in 1990 → 0.03 in 2025). A logistic classifier on SPECTER2 embeddings, cross-fitted over ten folds, identified a paper's venue from its abstract 69% of the time in the early 1990s but only 43% of the time since 2025, against a 25% chance rate.</p></div>
+  <div class="grid4" id="p-jsd"></div>
+  <p class="cap">Jensen–Shannon divergence (base 2) between the mean topic mixtures of each pair of venues, three-year windows, 95% bootstrap band.</p>
+  <div class="grid2">
+    <div class="fig"><div class="plot short" id="p-acc"></div><p class="cap">Four-way venue classification accuracy (cross-fitted, five-year windows). Chance is 25%.</p></div>
+    <div class="fig"><div class="plot short" id="p-auc"></div><p class="cap">POPL vs. PLDI separability: cross-fitted AUC of a two-way classifier, five-year windows.</p></div>
+  </div>
+</section>
+
+<section id="poplpldi">
+  <div class="sec-no">§7 · PLDI vs. POPL</div>
+  <h2>Where POPL and PLDI differ, then and now</h2>
+  <div class="prose"><p>The paper found PLDI "relatively stable" on types while POPL's weight "steadily increased", a POPL spike in continuations and partial evaluation in the 1990s, and PLDI persistently ahead on parallelization and dynamic analysis. All three reproduce. In the chart, each topic's POPL:PLDI ratio (log<sub>2</sub>) is shown for 1988–2004 and 2012–2026. Almost every dot moved toward zero: <i>Type theory &amp; dependent types</i> went from 40× more POPL to 9×, and <i>Formal semantics</i> from 4.8× to 1.5×. <i>Code optimization</i> went from 5.4× more PLDI to 3.6×.</p></div>
+  <div class="fig"><div class="legend"><span><i style="background:var(--neutral)"></i>1988–2004</span><span><i style="background:var(--accent)"></i>2012–2026</span></div><div class="plot tall" id="p-dumbbell"></div>
+    <p class="cap">log<sub>2</sub>(POPL share / PLDI share) per topic. Right of zero is POPL-leaning. Topics are sorted by their recent value.</p></div>
+</section>
+
+<section id="seplogic">
+  <div class="sec-no">§8 · Separation logic at POPL</div>
+  <h2>Did O'Hearn's separation logic shift POPL?</h2>
+  <p class="q">"Have the ideas in O'Hearn's classic paper on separation logic shifted the kinds of papers that appear in POPL?" (SNAPL 2015)</p>
+  <div class="prose"><p>The 2015 paper asked this question and left it for future work. Three independent signals give the same answer. A segmented logistic model of the share of POPL papers citing the founding papers (Ishtiaq–O'Hearn POPL'01, O'Hearn–Reynolds–Yang CSL'01, Reynolds LICS'02, O'Hearn CONCUR'04) puts the break at <b>2004–2005</b> (posterior mass 0.91 under a flat prior). Within two years, about one POPL paper in five cited them. Direct citation of the founding papers then fades as the field cites its own descendants (Iris, RustBelt, concurrent separation logics). The topic signal keeps growing, though: the <i>Verification &amp; separation logic</i> topic rose from 1.2% of POPL in 1995 to 7.3% [5.9–8.9] in 2025, and it spread to PLDI, ICFP and OOPSLA at the same scale. The POPL papers that cite separation logic are much less about model checking and dependent type theory, and much more about concurrency and layered abstraction.</p></div>
+  <div class="grid2">
+    <div class="fig"><div class="legend" id="lg-sl"></div><div class="plot" id="p-sl"></div><p class="cap">POPL: share of papers citing a founding separation-logic paper, share whose abstract says "separation logic", and mean prevalence of STM topic 34, each per year.</p></div>
+    <div class="fig"><div class="plot" id="p-slcp"></div><p class="cap">Posterior over the changepoint year in POPL's citation share (segmented logistic regression, flat prior over 1998–2011).</p></div>
+  </div>
+</section>
+
+<section id="friends">
+  <div class="sec-no">§9 · Finding your friends</div>
+  <h2>Are cited papers closer than random ones, and which model finds them best?</h2>
+  <div class="prose"><p>The 2015 paper tested four papers (CDRS, PCC, TAL, SEMC) and found that citations usually sat closer in LDA space than random papers did. With OpenAlex reference lists, the test runs on every paper that cites at least five earlier papers in the corpus. The candidate pool for each query is every earlier paper. The paper's own finding holds: under its exact method (k = 20, Euclidean distance), a cited paper outranks a random uncited one 78% of the time. But that representation is a weak recommender, with only 8.6% of references in the top 20. A 40-topic STM more than doubles that. Plain TF-IDF and SPECTER2 embeddings roughly triple it. TF-IDF is best at putting a true reference first (highest MRR), and SPECTER2 has the best overall ranking (AUC). SPECTER2 was trained on Semantic Scholar citation links, which may include these papers, so its numbers are optimistic. TF-IDF has no such leakage.</p></div>
+  <div class="grid2">
+    <div class="fig"><div class="plot short" id="p-rw-auc"></div><p class="cap">AUC: probability a cited paper ranks above a random uncited one (ICFP/OOPSLA/PLDI/POPL, 3,940 queries, 95% bootstrap CI).</p></div>
+    <div class="fig"><div class="plot short" id="p-rw-r20"></div><p class="cap">Recall@20: fraction of a paper's in-corpus references in its top 20 suggestions. The 2015 tool returned 20.</p></div>
+  </div>
+  <div class="tbl"><table id="t-rw"></table></div>
+  <h3>The four case studies, and the Nix anecdote</h3>
+  <div class="prose"><p>For the paper's four examples, the table shows the median percentile rank (lower = closer) of each paper's in-corpus ICFP/OOPSLA/PLDI/POPL citations versus random papers. PCC (POPL'97) cites no earlier papers from these four venues in OpenAlex, which fits the original finding that its related work was hard to place. The paper's best anecdote was that the tool surfaced Nix's <i>Editing by Example</i> (POPL'84) for Osera &amp; Zdancewic's PLDI'15 synthesis paper. Rerun here, that recovery is fragile. Among 4,024 earlier papers, Nix ranks 2,907th under the 20-topic Euclidean model, 173rd under STM, 138th under TF-IDF and 1,315th under SPECTER2.</p></div>
+  <div class="tbl"><table id="t-cases"></table></div>
+</section>
+
+<section id="allvenues">
+  <div class="sec-no">§10 · Beyond the big four</div>
+  <h2>Twenty-four venues through an embedding-based topic model</h2>
+  <div class="prose"><p>The paper's first stated limitation was "our corpora include only data from four programming language conferences." BERTopic clusters SPECTER2 embeddings of all <span id="n-corpus2"></span> abstracts (UMAP → HDBSCAN → class-based TF-IDF). It finds <span id="n-bt"></span> sharply defined topics, such as <i>gradual typing</i>, <i>Iris/concurrent separation logic</i>, <i>smart contracts</i> and <i>SV-COMP tool papers</i>, that a 20-topic LDA cannot resolve. HDBSCAN initially left 55% of documents unclustered; each of those was assigned to its nearest topic centroid in embedding space. The heatmap shows each venue's fingerprint.</p></div>
+  <div class="fig"><div class="plot" id="p-bt-heat" style="height:620px"></div><p class="cap">Share of each venue's papers per research area (BERTopic topics grouped by hand). Hover for values.</p></div>
+  <div class="grid2">
+    <div class="fig"><div class="plot" id="p-bt-up"></div><p class="cap">Fastest-growing fine-grained topics across all 24 venues: share of papers 2021–2026 vs. 2006–2015.</p></div>
+    <div class="fig"><div class="plot" id="p-bt-down"></div><p class="cap">Fastest-shrinking fine-grained topics, same comparison.</p></div>
+  </div>
+</section>
+
+<section id="robust">
+  <div class="sec-no">§11 · Robustness and limits</div>
+  <h2>How much should you trust any one topic model?</h2>
+  <div class="prose">
+    <p>The 2015 paper compared abstract- and full-text-based models. pldb has no full text, so the analogue here compares model families on the same abstracts. The normalized mutual information between each model's hard topic assignments is only moderate: <span id="agree"></span>. The individual topics depend on the model. The headline trends above (OO decline, optimization decline, convergence, the rise of separation logic, testing, synthesis and probabilistic programming) appear in STM, in BERTopic and in raw text or citation counts, which is why they are reported as findings.</p>
+    <p>Limits: abstracts only; Springer-venue coverage is partial; OpenAlex reference lists are incomplete for older ACM papers; topic names are human judgments; the DiD design assumes the other three conferences are a valid counterfactual for OOPSLA. That assumption is plausible for field-wide shocks but untestable for OOPSLA-specific ones, so the pre-trend-adjusted estimate is the one to quote.</p>
+  </div>
+  <h3>The 20-topic LDA replication</h3>
+  <div class="tbl"><table id="t-lda"></table></div>
+</section>
+
+<footer>
+  Reproduction scripts (Python: gensim, BERTopic, SPECTER2, statsmodels, ruptures; R: stm) are at <a href="https://github.com/samth/pl-topics-revisited">github.com/samth/pl-topics-revisited</a>, numbered in run order. Data: pldb (dblp metadata CC0; abstracts via SIGPLAN OpenTOC, OpenAlex, Semantic Scholar); citations: OpenAlex. Original paper: M. Greenberg, K. Fisher, D. Walker, <i>Tracking the Flow of Ideas through the Programming Languages Literature</i>, SNAPL 2015.
+</footer>
+</div>
+
+<script>
+const D = /*DATA*/null;
+const V = ['popl', 'pldi', 'icfp', 'oopsla'], VN = {popl: 'POPL', pldi: 'PLDI', icfp: 'ICFP', oopsla: 'OOPSLA'};
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const vcol = v => css('--v-' + v), scol = i => css('--s' + (i + 1));
+const fmt = (x, d = 1) => (x * 100).toFixed(d) + '%';
+const $ = id => document.getElementById(id);
+function rgba(hex, a) { const h = hex.replace('#', ''); const n = parseInt(h, 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; }
+function base(extra = {}) {
+  const ink = css('--ink-2'), rule = css('--rule');
+  return Object.assign({
+    paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', margin: {l: 48, r: 12, t: 10, b: 34},
+    font: {family: css('--f-display') || 'sans-serif', size: 12, color: ink}, showlegend: false, hovermode: 'x unified',
+    hoverlabel: {bgcolor: css('--panel'), bordercolor: rule, font: {color: css('--ink'), family: 'sans-serif'}},
+    xaxis: {gridcolor: 'rgba(0,0,0,0)', linecolor: rule, zeroline: false, tickfont: {color: css('--muted')}},
+    yaxis: {gridcolor: rule, zeroline: false, tickfont: {color: css('--muted')}, griddash: 'dot'}
+  }, extra);
+}
+const CFG = {displayModeBar: false, responsive: true};
+function plot(id, traces, layout) { Plotly.react($(id), traces, layout, CFG); }
+function legend(id, items) { $(id).innerHTML = items.map(([c, t]) => `<span><i style="background:${c}"></i>${t}</span>`).join(''); }
+function band(xs, lo, hi, color, name) {
+  return [{x: xs, y: hi, mode: 'lines', line: {width: 0}, hoverinfo: 'skip', showlegend: false},
+          {x: xs, y: lo, mode: 'lines', line: {width: 0}, fill: 'tonexty', fillcolor: rgba(color, .16), hoverinfo: 'skip', showlegend: false}];
+}
+
+function staticText() {
+  const c = D.coverage;
+  $('n-corpus').textContent = c.corpus.toLocaleString(); $('n-corpus2').textContent = c.corpus.toLocaleString();
+  $('n-raw').textContent = c.total.toLocaleString(); $('n-abs').textContent = c.with_abs.toLocaleString();
+  $('m-corpus').textContent = `${c.corpus.toLocaleString()} title+abstract documents from 24 venues, 1973–2026; ${c.core4.toLocaleString()} from the original four conferences`;
+  $('n-bt').textContent = D.bt_ntopics; document.querySelectorAll('.n-core4').forEach(e => e.textContent = c.core4.toLocaleString());
+  $('agree').textContent = Object.entries(D.agree).map(([k, v]) => `${k} ${v.toFixed(2)}`).join(', ');
+  const did = D.oopsla_did['DiD + OOPSLA-specific linear trend'];
+  const F = [
+    ['Topic count, chosen by data.', 'Held-out likelihood and coherence point to about 40 topics for the four big conferences, twice the 20 the paper fixed by hand.'],
+    ['OOPSLA’s OO core collapsed.', `Objects/OO-design topics fell from about 33% of an OOPSLA abstract in 1995 to under 2% in 2025. Net of a pre-existing decline, OOPSLA lost a further ${Math.abs(did['oopsla:post07'][0] * 100).toFixed(1)} pp after the 2007 CFP and ${Math.abs(did['oopsla:post10'][0] * 100).toFixed(1)} pp after the 2010 SPLASH rebrand.`],
+    ['The big four are converging.', 'Topic divergence between every pair of conferences has fallen. A classifier identifies a paper’s venue from its abstract 43% of the time since 2025, down from 69% in the early 1990s (chance is 25%).'],
+    ['Separation logic did shift POPL.', 'Citations of the founding papers jumped in 2004–05 (changepoint posterior 0.91), and the separation-logic/verification topic grew six-fold at POPL, then spread to PLDI, ICFP and OOPSLA.'],
+    ['Optimization kept falling.', 'Classical code optimization went from 17.6% of PLDI in 1995 to 2.8% in 2025. Verified compilation held steady.'],
+    ['Topic vectors are weak recommenders.', 'On 3,940 papers, the 2015 method ranks cited papers above random ones (AUC 0.78) but puts only 8.6% of references in its top 20. TF-IDF and SPECTER2 reach about 30%.']
+  ];
+  $('findings').innerHTML = F.map((f, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><span><b>${f[0]}</b> ${f[1]}</span></li>`).join('');
+}
+
+function coverage() {
+  const c = D.coverage, yrs = []; for (let y = 1973; y <= 2026; y++) yrs.push(y);
+  const series = V.map(v => ({name: VN[v], color: vcol(v), y: yrs.map(y => c.core4_year[v][y] || 0)}));
+  series.push({name: 'Other 20 venues', color: css('--neutral'), y: yrs.map(y => c.other_year[y] || 0)});
+  legend('lg-cov', series.map(s => [s.color, s.name]));
+  plot('p-cov', series.map(s => ({type: 'bar', x: yrs, y: s.y, name: s.name, marker: {color: s.color, line: {color: css('--panel'), width: 1}}, hovertemplate: '%{y}'})),
+    base({barmode: 'stack', bargap: .15, yaxis: {...base().yaxis, title: {text: 'documents'}}}));
+}
+
+function searchK() {
+  const s = D.searchK, el = $('p-searchk'); el.innerHTML = '';
+  [['heldout', 'Held-out log-likelihood ↑'], ['semcoh', 'Semantic coherence ↑'], ['exclus', 'Exclusivity ↑'], ['residual', 'Residual dispersion ↓']].forEach(([k, t], i) => {
+    const d = document.createElement('div'); d.className = 'fig'; d.innerHTML = `<div class="cap" style="margin-top:0">${t}</div><div class="plot" id="sk${i}"></div>`; el.appendChild(d);
+    plot('sk' + i, [{x: s.K, y: s[k], mode: 'lines+markers', line: {color: css('--accent'), width: 2}, marker: {size: 8, color: css('--accent'), line: {color: css('--panel'), width: 2}}, hovertemplate: 'K=%{x}: %{y:.3f}<extra></extra>'}],
+      base({hovermode: 'closest', margin: {l: 52, r: 8, t: 4, b: 30}, shapes: [{type: 'line', x0: 40, x1: 40, yref: 'paper', y0: 0, y1: 1, line: {color: css('--muted'), dash: 'dash', width: 1}}], xaxis: {...base().xaxis, title: {text: 'K'}}}));
+  });
+}
+
+function holistic() {
+  legend('lg-areas', D.areas.map((a, i) => [scol(i), a]));
+  const el = $('p-holistic'); el.innerHTML = '';
+  V.forEach(v => {
+    const d = document.createElement('div'); d.innerHTML = `<div class="cap" style="margin:4px 0 0;font-family:var(--f-display);font-weight:700;color:var(--ink)">${VN[v]}</div><div class="plot" id="hol-${v}"></div>`; el.appendChild(d);
+    const rows = D.holistic[v], xs = rows.map(r => r[0]);
+    plot('hol-' + v, D.areas.map((a, i) => ({x: xs, y: rows.map(r => r[i + 1]), name: a, stackgroup: 'one', mode: 'lines', line: {width: .8, color: css('--panel')}, fillcolor: scol(i), hovertemplate: '%{y:.1%}'})),
+      base({yaxis: {...base().yaxis, tickformat: '.0%', range: [0, 1]}, margin: {l: 44, r: 8, t: 4, b: 30}, hoverlabel: {...base().hoverlabel, namelength: 40}}));
+  });
+}
+
+function topicPlot(id, k, extra = {}) {
+  const tr = D.traj[k], traces = [];
+  V.forEach(v => { if (!tr[v]) return; const xs = tr[v].map(r => r[0]); traces.push(...band(xs, tr[v].map(r => r[2]), tr[v].map(r => r[3]), vcol(v))); });
+  V.forEach(v => { if (!tr[v]) return; const xs = tr[v].map(r => r[0]);
+    traces.push({x: xs, y: tr[v].map(r => r[1]), mode: 'lines', name: VN[v], line: {color: vcol(v), width: 2}, hovertemplate: '%{y:.1%}'}); });
+  plot(id, traces, base(Object.assign({yaxis: {...base().yaxis, tickformat: '.0%', rangemode: 'tozero'}}, extra)));
+}
+function topicExplorer() {
+  const sel = $('topic-sel');
+  if (!sel.options.length) {
+    D.topics.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach(t => { const o = document.createElement('option'); o.value = t.id; o.textContent = `${t.name} (#${t.id}, ${(t.prev * 100).toFixed(1)}%)`; sel.appendChild(o); });
+    sel.value = 21; sel.addEventListener('change', drawTopic);
+  }
+  legend('lg-venues', V.map(v => [vcol(v), VN[v]])); legend('lg-venues2', V.map(v => [vcol(v), VN[v]]));
+  drawTopic();
+}
+function drawTopic() {
+  const k = +$('topic-sel').value, t = D.topics.find(t => t.id === k);
+  topicPlot('p-topic', k);
+  $('topic-card').innerHTML = `<div><div class="k">Highest probability</div>${t.prob.join(', ')}</div><div><div class="k">FREX (frequent and exclusive)</div>${t.frex.join(', ')}</div><div><div class="k">Most representative papers</div>${t.papers.join('<br>')}</div>`;
+}
+
+function oopsla() {
+  const e = D.oopsla_event, xs = e.map(r => r[0]), acc = css('--v-oopsla');
+  const vl = y => ({type: 'line', x0: y, x1: y, yref: 'paper', y0: 0, y1: 1, line: {color: css('--muted'), dash: 'dash', width: 1}});
+  plot('p-oo-event', [...band(xs, e.map(r => r[4]), e.map(r => r[5]), acc),
+    {x: xs, y: e.map(r => r[3]), mode: 'lines+markers', line: {color: acc, width: 2}, marker: {size: 6, color: acc}, name: 'OOPSLA − others', hovertemplate: '%{y:.1%}'}],
+    base({shapes: [vl(2007), vl(2010), {type: 'line', xref: 'paper', x0: 0, x1: 1, y0: 0, y1: 0, line: {color: css('--muted'), width: 1}}],
+      annotations: [{x: 2007, y: 1, yref: 'paper', text: 'new CFP', showarrow: false, xanchor: 'right', font: {size: 11, color: css('--muted')}},
+                    {x: 2010, y: 1, yref: 'paper', text: 'SPLASH', showarrow: false, xanchor: 'left', font: {size: 11, color: css('--muted')}}],
+      yaxis: {...base().yaxis, tickformat: '.0%', title: {text: 'OO share gap'}}}));
+  const rows = []; const lab = {'oopsla:post07': 'OOPSLA × after 2007', 'oopsla:post10': 'OOPSLA × after 2010 (additional)', 'oopsla:t': 'OOPSLA pre-trend (per year)'};
+  Object.entries(D.oopsla_did).forEach(([m, cs]) => Object.entries(cs).forEach(([term, [b, se, p]]) =>
+    rows.push(`<tr${m.includes('trend') ? ' class="hl"' : ''}><td>${m}</td><td>${lab[term]}</td><td class="num">${(b * 100).toFixed(1)} pp</td><td class="num">±${(1.96 * se * 100).toFixed(1)}</td><td class="num">${p < 1e-4 ? '<0.0001' : p.toFixed(4)}</td></tr>`)));
+  $('t-did').innerHTML = `<thead><tr><th>Specification</th><th>Term</th><th class="num">Estimate</th><th class="num">95% CI</th><th class="num">p</th></tr></thead><tbody>${rows.join('')}</tbody>`;
+  const tr = [];
+  V.forEach(v => { const r = D.diversity[v]; if (!r) return; tr.push(...band(r.map(x => x[0]), r.map(x => x[2]), r.map(x => x[3]), vcol(v))); });
+  V.forEach(v => { const r = D.diversity[v]; if (!r) return; tr.push({x: r.map(x => x[0]), y: r.map(x => x[1]), name: VN[v], mode: 'lines', line: {color: vcol(v), width: 2}, hovertemplate: '%{y:.1f}'}); });
+  plot('p-div', tr, base({yaxis: {...base().yaxis, title: {text: 'effective # topics'}}}));
+}
+
+function converge() {
+  const el = $('p-jsd'); el.innerHTML = '';
+  const pairs = Object.keys(D.jsd).sort((a, b) => D.jsd[b][0][1] - D.jsd[a][0][1]);
+  pairs.forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'fig'; d.innerHTML = `<div class="cap" style="margin-top:0;font-family:var(--f-display);color:var(--ink)">${p.toUpperCase()}</div><div class="plot" id="jsd${i}"></div>`; el.appendChild(d);
+    const r = D.jsd[p], xs = r.map(x => x[0]), c = css('--accent');
+    plot('jsd' + i, [...band(xs, r.map(x => x[2]), r.map(x => x[3]), c), {x: xs, y: r.map(x => x[1]), mode: 'lines', line: {color: c, width: 2}, hovertemplate: '%{y:.3f}<extra></extra>'}],
+      base({margin: {l: 44, r: 8, t: 4, b: 28}, yaxis: {...base().yaxis, range: [0, .45]}, xaxis: {...base().xaxis, range: [1975, 2026]}}));
+  });
+  const a = D.venue_acc, c = css('--accent');
+  plot('p-acc', [...band(a.map(r => r[0]), a.map(r => r[2]), a.map(r => r[3]), c), {x: a.map(r => r[0]), y: a.map(r => r[1]), mode: 'lines', line: {color: c, width: 2}, hovertemplate: '%{y:.1%}<extra></extra>'}],
+    base({yaxis: {...base().yaxis, tickformat: '.0%', range: [.2, .8]}, shapes: [{type: 'line', xref: 'paper', x0: 0, x1: 1, y0: .25, y1: .25, line: {color: css('--muted'), dash: 'dot', width: 1}}]}));
+  const u = D.popl_pldi_auc;
+  plot('p-auc', [...band(u.map(r => r[0]), u.map(r => r[2]), u.map(r => r[3]), c), {x: u.map(r => r[0]), y: u.map(r => r[1]), mode: 'lines', line: {color: c, width: 2}, hovertemplate: '%{y:.3f}<extra></extra>'}],
+    base({yaxis: {...base().yaxis, range: [.7, 1]}}));
+}
+
+function dumbbell() {
+  const p = D.popl_pldi.slice().sort((a, b) => a.late - b.late), names = p.map(r => r.name);
+  const lines = p.map(r => ({x: [r.early, r.late], y: [r.name, r.name], mode: 'lines', line: {color: css('--rule'), width: 2}, hoverinfo: 'skip'}));
+  plot('p-dumbbell', [...lines,
+    {x: p.map(r => r.early), y: names, mode: 'markers', name: '1988–2004', marker: {size: 9, color: css('--neutral'), line: {color: css('--panel'), width: 2}}, hovertemplate: '%{y}<br>1988–2004: %{x:.2f}<extra></extra>'},
+    {x: p.map(r => r.late), y: names, mode: 'markers', name: '2012–2026', marker: {size: 9, color: css('--accent'), line: {color: css('--panel'), width: 2}}, hovertemplate: '%{y}<br>2012–2026: %{x:.2f}<extra></extra>'}],
+    base({hovermode: 'closest', height: 860, margin: {l: 230, r: 16, t: 28, b: 34},
+      shapes: [{type: 'line', x0: 0, x1: 0, yref: 'paper', y0: 0, y1: 1, line: {color: css('--muted'), width: 1}}],
+      annotations: [{x: -3, y: 1.02, yref: 'paper', text: '← more PLDI', showarrow: false, font: {size: 12, color: css('--muted')}}, {x: 3, y: 1.02, yref: 'paper', text: 'more POPL →', showarrow: false, font: {size: 12, color: css('--muted')}}],
+      xaxis: {...base().xaxis, title: {text: 'log₂(POPL share / PLDI share)'}, zeroline: false}, yaxis: {...base().yaxis, tickfont: {size: 11.5, color: css('--ink-2')}, automargin: true}}));
+  $('p-dumbbell').style.height = '860px';
+}
+
+function seplogic() {
+  const r = D.sl.popl.filter(x => x[0] >= 1995), xs = r.map(x => x[0]);
+  const S = [['Cites a founding SL paper', 2, scol(0)], ['Abstract says “separation logic”', 3, scol(1)], ['Topic 34 prevalence', 4, scol(2)]];
+  legend('lg-sl', S.map(s => [s[2], s[0]]));
+  plot('p-sl', S.map(([n, i, c]) => ({x: xs, y: r.map(x => x[i]), name: n, mode: 'lines+markers', line: {color: c, width: 2}, marker: {size: 6, color: c}, hovertemplate: '%{y:.1%}'})),
+    base({yaxis: {...base().yaxis, tickformat: '.0%'}, hoverlabel: {...base().hoverlabel, namelength: 40}}));
+  const cp = D.sl_cp;
+  plot('p-slcp', [{type: 'bar', x: cp.map(x => x[0]), y: cp.map(x => x[1]), marker: {color: css('--accent'), cornerradius: 3}, hovertemplate: '%{x}: %{y:.2f}<extra></extra>'}],
+    base({hovermode: 'closest', bargap: .3, yaxis: {...base().yaxis, title: {text: 'posterior'}}}));
+}
+
+function friends() {
+  const r = D.rw.filter(x => x.eval.startsWith('ICFP')), names = r.map(x => x.method);
+  const bar = (id, key) => plot(id, [{type: 'bar', orientation: 'h', y: names, x: r.map(x => x[key]),
+      error_x: {type: 'data', symmetric: false, array: r.map(x => x[key + '_hi'] - x[key]), arrayminus: r.map(x => x[key] - x[key + '_lo']), color: css('--ink-2'), thickness: 1, width: 3},
+      marker: {color: r.map(x => x.method.includes('(paper)') ? css('--v-pldi') : css('--accent')), cornerradius: 3}, hovertemplate: '%{y}: %{x:.3f}<extra></extra>'}],
+    base({hovermode: 'closest', margin: {l: 190, r: 16, t: 6, b: 30}, yaxis: {...base().yaxis, autorange: 'reversed', gridcolor: 'rgba(0,0,0,0)'}, xaxis: {...base().xaxis, gridcolor: css('--rule'), range: key === 'auc' ? [.5, 1] : [0, .4]}}));
+  bar('p-rw-auc', 'auc'); bar('p-rw-r20', 'r20');
+  $('t-rw').innerHTML = `<thead><tr><th>Candidate pool</th><th>Representation</th><th class="num">Queries</th><th class="num">AUC</th><th class="num">Recall@20</th><th class="num">Recall@100</th><th class="num">MRR</th></tr></thead><tbody>` +
+    D.rw.map(x => `<tr${x.method.includes('(paper)') ? ' class="hl"' : ''}><td>${x.eval}</td><td>${x.method}</td><td class="num">${x.n.toLocaleString()}</td><td class="num">${x.auc.toFixed(3)}</td><td class="num">${fmt(x.r20)}</td><td class="num">${fmt(x.r100)}</td><td class="num">${x.mrr.toFixed(3)}</td></tr>`).join('') + '</tbody>';
+  const cases = {}; D.fig9.forEach(x => { const k = x.paper + '|' + x.method; (cases[k] = cases[k] || {paper: x.paper, method: x.method})[x.g] = x; });
+  $('t-cases').innerHTML = `<thead><tr><th>Paper</th><th>Representation</th><th class="num">In-corpus citations</th><th class="num">Median pct. rank, citations</th><th class="num">Median pct. rank, random</th></tr></thead><tbody>` +
+    Object.values(cases).map(c => `<tr><td>${c.paper}</td><td>${c.method}</td><td class="num">${c.Citations ? c.Citations.count : 0}</td><td class="num">${c.Citations ? fmt(c.Citations['50%'], 0) : '—'}</td><td class="num">${fmt(c.Random['50%'], 0)}</td></tr>`).join('') + '</tbody>';
+}
+
+function allvenues() {
+  const h = D.bt_heat;
+  plot('p-bt-heat', [{type: 'heatmap', z: h.z, x: h.areas, y: h.venues.map((v, i) => `${v.toUpperCase()} (${h.n[i]})`), colorscale: [[0, css('--seq-lo')], [1, css('--seq-hi')]], xgap: 2, ygap: 2,
+      hovertemplate: '%{y} · %{x}: %{z:.1%}<extra></extra>', colorbar: {tickformat: '.0%', outlinewidth: 0, thickness: 10, tickfont: {color: css('--muted')}}}],
+    base({hovermode: 'closest', margin: {l: 110, r: 10, t: 6, b: 120}, xaxis: {...base().xaxis, tickangle: -40}, yaxis: {...base().yaxis, autorange: 'reversed', gridcolor: 'rgba(0,0,0,0)', dtick: 1, tickfont: {size: 11, color: css('--ink-2')}}}));
+  const gb = (id, rows, color) => plot(id, [{type: 'bar', orientation: 'h', y: rows.map(r => r.name), x: rows.map(r => r.late), name: '2021–2026', marker: {color, cornerradius: 3}, hovertemplate: '2021–26: %{x:.1%}<extra></extra>'},
+      {type: 'bar', orientation: 'h', y: rows.map(r => r.name), x: rows.map(r => r.early), name: '2006–2015', marker: {color: css('--neutral'), cornerradius: 3}, hovertemplate: '2006–15: %{x:.1%}<extra></extra>'}],
+    base({barmode: 'group', bargap: .25, hovermode: 'y unified', showlegend: true, legend: {orientation: 'h', y: -0.12, font: {color: css('--ink-2')}}, margin: {l: 190, r: 12, t: 6, b: 50},
+      xaxis: {...base().xaxis, tickformat: '.0%', gridcolor: css('--rule')}, yaxis: {...base().yaxis, autorange: 'reversed', gridcolor: 'rgba(0,0,0,0)'}}));
+  gb('p-bt-up', D.bt_growth.up.slice(0, 10), css('--accent')); gb('p-bt-down', D.bt_growth.down.slice(0, 10), css('--v-pldi'));
+  $('t-lda').innerHTML = '<thead><tr><th class="num">#</th><th>Top words (LDA k=20, ICFP/OOPSLA/PLDI/POPL abstracts)</th></tr></thead><tbody>' +
+    D.lda20.map((w, i) => `<tr><td class="num">${i}</td><td>${w}</td></tr>`).join('') + '</tbody>';
+}
+
+function drawAll() { coverage(); searchK(); holistic(); topicExplorer(); topicPlot('p-opt1', 36); topicPlot('p-opt2', 14); oopsla(); converge(); dumbbell(); seplogic(); friends(); allvenues(); }
+staticText();
+if (window.Plotly) {
+  drawAll();
+  new MutationObserver(drawAll).observe(document.documentElement, {attributes: true, attributeFilter: ['data-theme']});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
+}
+</script>

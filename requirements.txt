@@ -1,0 +1,15 @@
+numpy
+pandas
+scipy
+scikit-learn
+statsmodels
+nltk
+gensim
+torch
+transformers
+adapters
+sentence-transformers
+bertopic
+umap-learn
+hdbscan
+ruptures
