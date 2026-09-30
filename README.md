@@ -4,7 +4,7 @@ Re-analysis of Greenberg, Fisher & Walker, "Tracking the Flow of Ideas through t
 
 Report: `report/pl-topics-revisited.html` (built from `report/template.html` + `out/report_data.json`).
 
-Live report: https://claude.ai/artifact/WLKy8SBGmCUmoGAf25HCRx (private until shared). Open `report/pl-topics-revisited.html` in a browser for the same page.
+Live report: https://claude.ai/artifact/WLKy8SBGmCUmoGAf25HCRx. Open `report/pl-topics-revisited.html` in a browser for the same page.
 
 Run order (Python venv with gensim, bertopic, umap-learn, hdbscan, adapters, transformers, torch, statsmodels, ruptures, scikit-learn; R with `stm`):
 
